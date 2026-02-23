@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="user.css" />
+  <link rel="stylesheet" href="layout/userNavigation.css" />
+  <link rel="stylesheet" href="layout/userFooter.css" />
+</head>
+<body>
+<!-- HEADER LOAD -->
+<div id="nav-placeholder"></div>
+
+<div class="main-container">
+
+  <!-- EMPLOYEE INFO -->
+  <div class="emp-card">
+    <div class="avatar">👤</div>
+    <div class="emp-details">
+      <h3 id="empName"></h3>
+      <p>Password: <span id="empPass"></span></p>
+      <p>Employee ID: <span id="empId"></span></p>
+    </div>
+  </div>
+
+  <!-- CUSTOMER HANDLE -->
+  <div class="customer-section">
+    <h3>Customer Handle</h3>
+    <p>Total Assigned: <span id="totalAssigned"></span></p>
+    <ul id="custList"></ul>
+  </div>
+
+  <hr>
+
+  <!-- ================= SELECT CLIENT ================= -->
+  <div class="client-section">
+
+    <button id="selectClientBtn">Select Client</button>
+
+    <div id="clientList" class="client-list" style="display:none; margin-top:15px; border:1px solid #ddd; padding:15px; width:250px; background:#fff;">
+
+      <div id="radioClients"></div>
+
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:15px;">
+        <button id="cancelClient">Cancel</button>
+        <button id="confirmClient">Select</button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ================= CONTENT MODULE ================= -->
+  <div class="content-wrapper">
+
+    <div class="content-header">
+      <div>
+        <h2>Content</h2>
+        <p>Manage all your social media content</p>
+      </div>
+
+      <button id="openModal" class="new-post-btn">
+        + New Post
+      </button>
+    </div>
+
+    <div class="search-filter">
+      <input type="text" id="searchInput" placeholder="Search by Title or Date..." />
+    </div>
+
+    <div class="table-container">
+      <table class="content-table">
+        <thead>
+          <tr>
+            <th style="width:45%">Title</th>
+            <th>Platform</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="contentTable"></tbody>
+      </table>
+    </div>
+
+  </div>
+  <!-- ================= SOCIAL ACCOUNTS ================= -->
+
+<div class="accounts-wrapper">
+
+  <div class="accounts-header">
+    <h2>Social Accounts</h2>
+    <p>Connect your Instagram and Facebook accounts</p>
+  </div>
+
+  <div class="accounts-container">
+
+    <!-- Instagram -->
+    <div class="account-card">
+
+      <div class="account-left">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png">
+        <div>
+          <h3>Instagram</h3>
+          <p id="instaStatus">Not Connected</p>
+        </div>
+      </div>
+
+      <button
+        class="connect-btn insta-btn"
+        id="connectInstagramBtn">
+
+        Connect
+
+      </button>
+
+    </div>
+
+
+    <!-- Facebook -->
+    <div class="account-card">
+
+      <div class="account-left">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png">
+        <div>
+          <h3>Facebook</h3>
+          <p id="fbStatus">Not Connected</p>
+        </div>
+      </div>
+
+      <button
+        class="connect-btn fb-btn"
+        id="connectFacebookBtn">
+
+        Connect
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+  <!-- ================= POST MODAL ================= -->
+
+<div id="postModal" class="modal hidden">
+  <div class="modal-box">
+
+    <h2 id="popupTitle">Create New Post</h2>
+
+    <div class="form-group">
+      <label>Project Name</label>
+      <input type="text" id="project_name" placeholder="Enter project title">
+    </div>
+
+    <div class="form-group">
+      <label>Caption</label>
+      <textarea id="project_caption" placeholder="Write caption..."></textarea>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Platform</label>
+        <select id="platform">
+          <option value="">Select Platform</option>
+          <option value="Facebook">Facebook</option>
+          <option value="Instagram">Instagram</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Status</label>
+        <select id="status">
+          <option value="Draft">Draft</option>
+          <option value="Scheduled">Scheduled</option>
+          <option value="Published">Published</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Schedule Date</label>
+      <input type="date" id="schedule_date">
+    </div>
+    <div class="form-group">
+  <label>Upload Media</label>
+
+  <input type="file"
+         id="mediaUpload"
+         accept="image/*,video/*"
+         multiple>
+
+  <small class="media-note">
+    You can upload images, videos, reels or carousel.
+  </small>
+</div>
+    <div class="modal-actions">
+      <button id="cancelBtn" class="btn-cancel">Cancel</button>
+      <button id="createBtn" class="btn-select">Create Post</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ✅ Delete Confirmation Modal -->
+<div id="deleteModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <p>Are you sure you want to delete this post?</p>
+    <button id="confirmDeleteBtn">Yes, Delete</button>
+    <button id="cancelDeleteBtn">Cancel</button>
+  </div>
+</div>
+<!-- ✅ ONLY ONE JS FILE -->
+ <script src="layout/loadLayout.js"></script>
+<script src="user.js" defer></script>
+<div id="footer-placeholder"></div>
+</body>
+
+</html>
