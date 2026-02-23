@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+    <link rel="stylesheet" href="./css/Login.css" />
+  </head>
+  <body>
+    <div class="login-container">
+      <h2>Login</h2>
+
+      <div class="input-box">
+        <input type="text" id="username" placeholder="Username" />
+        <span class="icon">👤</span>
+      </div>
+
+      <div class="input-box">
+        <input type="password" id="password" placeholder="Password" />
+        <span class="icon">🔒</span>
+      </div>
+
+      <div class="options">
+        <label> <input type="checkbox" /> Remember me </label>
+        <a href="#">Forgot password?</a>
+      </div>
+
+      <button type="button" onclick="login()">Login</button>
+      <p class="register">
+        Don't have an account? <a href="./Registration_form.html">Register</a>
+      </p>
+    </div>
+<script>
+function login() {
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+
+  fetch("http://localhost:3000/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password }),
+  })
+  .then(res => res.json())
+  .then(data => {
+
+    if (data.role === "admin") {
+
+      // Store full admin data
+      /* STORE SESSION FOR USER PANEL */
+localStorage.setItem("loggedUser", data.username);
+      window.location.href = "./AdminModule/admin.html";
+
+    } 
+   else if (data.role === "user") {
+
+  const sessionData = {
+    username: data.username,// employee name
+  
+    role: "user"
+  };
+
+  localStorage.setItem(
+    "loggedInUser",
+    JSON.stringify(sessionData)
+  );
+
+  window.location.href =
+    "./UserModule/user.html";
+
+}
+ 
+    else {
+      alert("Invalid credentials");
+    }
+
+  })
+  .catch(err => {
+    console.log(err);
+    alert("Server error");
+  });
+}
+</script>
+
+  </body>
+</html>
+
