@@ -3,8 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <title>Login</title>
+
     <link rel="stylesheet" href="./css/Login.css" />
   </head>
+
   <body>
     <div class="login-container">
       <h2>Login</h2>
@@ -16,70 +18,75 @@
 
       <div class="input-box">
         <input type="password" id="password" placeholder="Password" />
-        <span class="icon">🔒</span>
+        <span class="icon" onclick="togglePassword(this)">👁</span>
       </div>
 
       <div class="options">
         <label> <input type="checkbox" /> Remember me </label>
-        <a href="#">Forgot password?</a>
+        <a href="./forget.html">Forgot password?</a>
       </div>
 
       <button type="button" onclick="login()">Login</button>
+
       <p class="register">
         Don't have an account? <a href="./Registration_form.html">Register</a>
       </p>
     </div>
-<script>
-function login() {
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
 
-  fetch("http://localhost:3000/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password }),
-  })
-  .then(res => res.json())
-  .then(data => {
+    <!-- POPUP -->
+    <div class="popup" id="popup">
+      <div class="popup-box">
+        <p id="popupMessage"></p>
+        <button onclick="closePopup()">OK</button>
+      </div>
+    </div>
 
-    if (data.role === "admin") {
+    <script>
+      function showPopup(message) {
+        document.getElementById("popupMessage").innerText = message;
+        document.getElementById("popup").style.display = "flex";
+      }
 
-      // Store full admin data
-      /* STORE SESSION FOR USER PANEL */
-localStorage.setItem("loggedUser", data.username);
-      window.location.href = "./AdminModule/admin.html";
+      function closePopup() {
+        document.getElementById("popup").style.display = "none";
+      }
 
-    } 
-   else if (data.role === "user") {
+      function togglePassword(element) {
+        const input = document.getElementById("password");
 
-  const sessionData = {
-    username: data.username,// employee name
-  
-    role: "user"
-  };
+        if (input.type === "password") {
+          input.type = "text";
+          element.innerHTML = "🙈";
+        } else {
+          input.type = "password";
+          element.innerHTML = "👁";
+        }
+      }
 
-  localStorage.setItem(
-    "loggedInUser",
-    JSON.stringify(sessionData)
-  );
+      function login() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
 
-  window.location.href =
-    "./UserModule/user.html";
-
-}
- 
-    else {
-      alert("Invalid credentials");
-    }
-
-  })
-  .catch(err => {
-    console.log(err);
-    alert("Server error");
-  });
-}
-</script>
-
+        fetch("http://localhost:3000/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.role === "admin") {
+              window.location.href = "./AdminModule/admin.html";
+            } else if (data.role === "user") {
+              localStorage.setItem("empName", data.name);
+              window.location.href = "./UserModule/user.html";
+            } else {
+              showPopup("Invalid credentials ❌");
+            }
+          })
+          .catch(() => {
+            showPopup("Server error ❌");
+          });
+      }
+    </script>
   </body>
 </html>
-
